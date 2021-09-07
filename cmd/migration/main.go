@@ -9,10 +9,6 @@ import (
 
 	"github.com/pressly/goose"
 	"github.com/spf13/viper"
-
-	"github.com/MichaelCapo23/jwtserver/cmd/migration/migrationrunner"
-	_ "github.com/MichaelCapo23/jwtserver/cmd/migration/migrations"
-	_ "github.com/lib/pq"
 )
 
 var (
