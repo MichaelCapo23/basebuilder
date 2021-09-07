@@ -10,7 +10,6 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=postgres
 
-
   migration:
     image: migration
     build:
@@ -21,10 +20,9 @@ services:
       - /migration/migration
       - up
     restart: on-failure
-    depends_on:
-      localstack:
-        condition: service_healthy
     env_file:
       - ./env/local.env
     environment:
       - PG_WRITER_URI=postgresql://root:postgres@postgres:5432/localauth?sslmode=disable
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"

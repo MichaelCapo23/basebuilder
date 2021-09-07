@@ -1,0 +1,13 @@
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+*.test
+*.out
+
+**/.envrc
+**/*.env
+**/.vscode
+**/__debug_bin

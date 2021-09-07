@@ -34,6 +34,6 @@ RUN mkdir /migration & \
 
 FROM base-server as migration
 COPY --from=migration-builder /migration /migration
-COPY migration/migrations /jwtserver/migration/migrations
+ADD /migration/migrations /jwtserver/migration/migrations
 WORKDIR /migration
 ENTRYPOINT ["/migration/migration up"]
