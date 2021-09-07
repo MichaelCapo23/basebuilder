@@ -1,5 +1,3 @@
-// This is custom goose binary with sqlite3 support only.
-
 package main
 
 import (
@@ -9,6 +7,8 @@ import (
 
 	"github.com/pressly/goose"
 	"github.com/spf13/viper"
+
+	migrationrunner "github.com/MichaelCapo23/jwtserver/migration/migrationrunnner"
 )
 
 var (
@@ -43,5 +43,5 @@ func main() {
 	if len(args) > 1 {
 		arguments = append(arguments, args[1:]...)
 	}
-	migrationrunner.RunMigration(command, db, "", arguments)
+	migrationrunner.RunMigration(command, db, "", arguments...)
 }

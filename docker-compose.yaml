@@ -1,0 +1,30 @@
+version: "2.4"
+services:
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=localauth
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=postgres
+
+
+  migration:
+    image: migration
+    build:
+      dockerfile: cmd/Dockerfile
+      context: .
+      target: migration
+    entrypoint:
+      - /migration/migration
+      - up
+    restart: on-failure
+    depends_on:
+      localstack:
+        condition: service_healthy
+    env_file:
+      - ./env/local.env
+    environment:
+      - PG_WRITER_URI=postgresql://root:postgres@postgres:5432/localauth?sslmode=disable
