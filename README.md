@@ -1,2 +1,15 @@
 # jwtserver
-This is a small example to provide auth via JWT and a JWKS endpoint
+This is a small "dockerized" repo to provide auth via JWT and JWKS, along with basic postgres migrations using goose. 
+
+
+## Start Using
+1. spin up postgres container
+```
+docker compose up -d postgres
+```
+
+2. run the migrations
+```
+cd migration
+go run . up
+```

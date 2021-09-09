@@ -28,7 +28,7 @@ func main() {
 	}
 	command := args[0]
 
-	viper.SetDefault("PG_WRITER_URI", "postgresql://root:postgres@postgres:5432/localauth?sslmode=disable")
+	viper.SetDefault("PG_WRITER_URI", "postgres://root:postgres@localhost:5432/localauth?sslmode=disable")
 	viper.AutomaticEnv()
 	pgURL := viper.GetString("PG_WRITER_URI")
 	db, err := goose.OpenDBWithDriver("postgres", pgURL)

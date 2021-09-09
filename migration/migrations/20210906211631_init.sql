@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE user (
+CREATE TABLE "user" (
     id uuid NOT NULL,
     email VARCHAR(254),
     email_verified boolean DEFAULT false NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE user (
     deleted boolean DEFAULT false NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL
-)
+);
 
 CREATE TABLE admin (
     id uuid NOT NULL,
