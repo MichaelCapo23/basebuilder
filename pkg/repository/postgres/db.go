@@ -6,18 +6,18 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type psqlDB struct {
-	readerX *sqlx.DB
-	writerX *sqlx.DB
+type PsqlDB struct {
+	ReaderX *sqlx.DB
+	WriterX *sqlx.DB
 }
 
-func NewDBFromSql(db string) *psqlDB {
+func NewDBFromSql(db string) *PsqlDB {
 	sdb, err := sql.Open("postgres", db) // open sql db
 	if err != nil {
 		panic(err)
 	}
-	return &psqlDB{
-		readerX: sqlx.NewDb(sdb, "postgres"),
-		writerX: sqlx.NewDb(sdb, "postgres"),
+	return &PsqlDB{
+		ReaderX: sqlx.NewDb(sdb, "postgres"),
+		WriterX: sqlx.NewDb(sdb, "postgres"),
 	}
 }

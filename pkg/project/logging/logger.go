@@ -13,7 +13,7 @@ type contextKey string
 const loggerKey = contextKey("logger")
 
 type InternalLogger struct {
-	logger *zap.SugaredLogger
+	Logger *zap.SugaredLogger
 }
 
 func NewLogger(isDebug bool) *InternalLogger {
@@ -29,27 +29,27 @@ func NewLogger(isDebug bool) *InternalLogger {
 	logger := l.WithOptions(zap.AddCallerSkip(1)).Sugar()
 
 	return &InternalLogger{
-		logger: logger,
+		Logger: logger,
 	}
 }
 
 func (l *InternalLogger) ErrorCtx(ctx context.Context, msg string, keysAndValues ...interface{}) {
 	traceID := project.TraceFromCtx(ctx)
 	if traceID == "" {
-		l.logger.Errorw(msg, keysAndValues...)
+		l.Logger.Errorw(msg, keysAndValues...)
 	} else {
 		keysAndValues = append(keysAndValues, "trace_id")
 		keysAndValues = append(keysAndValues, traceID)
-		l.logger.Errorw(msg, keysAndValues...)
+		l.Logger.Errorw(msg, keysAndValues...)
 	}
 }
 
 func (l *InternalLogger) Infow(msg string, keysAndValues ...interface{}) {
-	l.logger.Infow(msg, keysAndValues...)
+	l.Logger.Infow(msg, keysAndValues...)
 }
 
 func (l *InternalLogger) Sync() error {
-	return l.logger.Sync()
+	return l.Logger.Sync()
 }
 
 func FromContext(ctx context.Context) *zap.SugaredLogger {
@@ -60,5 +60,5 @@ func FromContext(ctx context.Context) *zap.SugaredLogger {
 }
 
 func WithLogger(ctx context.Context, logger *InternalLogger) context.Context {
-	return context.WithValue(ctx, loggerKey, logger.logger)
+	return context.WithValue(ctx, loggerKey, logger.Logger)
 }

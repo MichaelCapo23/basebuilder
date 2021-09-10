@@ -10,6 +10,10 @@ docker compose up -d postgres
 
 2. run the migrations
 ```
+make migrate
+
+or 
+
 cd migration
 go run . up
 ```
