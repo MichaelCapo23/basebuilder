@@ -1,5 +1,5 @@
 # jwtserver
-This is a small "dockerized" repo to provide auth via JWT and JWKS, along with basic postgres migrations using goose. 
+This is a small "dockerized" repo to provide auth via firebase, along with basic postgres migrations using goose. 
 
 
 ## Start Using
@@ -11,9 +11,4 @@ docker compose up -d postgres
 2. run the migrations
 ```
 make migrate
-
-or 
-
-cd migration
-go run . up
 ```

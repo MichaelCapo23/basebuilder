@@ -11,21 +11,19 @@ import (
 )
 
 func LoggingMiddleware(ctx context.Context) gin.HandlerFunc {
-	var rootLogger *logging.InternalLogger
+	internalLogger := logging.NewLogger(false)
 	logger := logging.FromContext(ctx)
-	rootLogger.Logger = logger
+	internalLogger.Logger = logger
 
 	return func(c *gin.Context) {
 		start := time.Now()
 
-		logger := rootLogger
-
-		ctx = logging.WithLogger(c.Request.Context(), logger)
+		ctx = logging.WithLogger(c.Request.Context(), internalLogger)
 		c.Request = c.Request.Clone(ctx)
 
 		c.Next()
 
-		logger.Logger.Desugar().Info(
+		internalLogger.Logger.Desugar().Info(
 			fmt.Sprintf("%s\t%s =>\t%d", c.Request.Method, c.Request.URL.String(), c.Writer.Status()),
 			zap.Namespace("httpRequest"),
 			zap.String("requestMethod", c.Request.Method),

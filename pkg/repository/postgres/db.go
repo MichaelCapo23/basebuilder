@@ -1,9 +1,9 @@
 package postgres
 
 import (
-	"database/sql"
-
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
+	"github.com/pressly/goose"
 )
 
 type PsqlDB struct {
@@ -12,12 +12,16 @@ type PsqlDB struct {
 }
 
 func NewDBFromSql(db string) *PsqlDB {
-	sdb, err := sql.Open("postgres", db) // open sql db
+	// sdb, err := sql.Open("postgres", db) // open sql db
+	// if err != nil {
+	// 	panic(err)
+	// }
+	pdb, err := goose.OpenDBWithDriver("postgres", db)
 	if err != nil {
 		panic(err)
 	}
 	return &PsqlDB{
-		ReaderX: sqlx.NewDb(sdb, "postgres"),
-		WriterX: sqlx.NewDb(sdb, "postgres"),
+		ReaderX: sqlx.NewDb(pdb, "postgres"),
+		WriterX: sqlx.NewDb(pdb, "postgres"),
 	}
 }

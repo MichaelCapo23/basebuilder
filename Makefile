@@ -3,3 +3,6 @@ migration-create:
 
 migrate:
 	cd migration && go run . up
+
+gentoken:
+	cd cmd/gentoken && go run .

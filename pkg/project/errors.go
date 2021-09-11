@@ -1,6 +1,16 @@
 package project
 
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
 var (
+	UnauthorizedRequest = &InternalError{
+		Code:    "unauthorized_request",
+		Message: "unauthorized request",
+	}
 	BadInput = &InternalError{
 		Code:    "bad_input",
 		Message: "bad input",
@@ -31,4 +41,11 @@ type InternalError struct {
 
 func (e *InternalError) Error() string {
 	return e.Message
+}
+
+func ReturnGinError(c *gin.Context, code int, error *InternalError) {
+	c.JSON(http.StatusUnauthorized, gin.H{
+		"code":    http.StatusUnauthorized,
+		"message": UnauthorizedRequest,
+	})
 }

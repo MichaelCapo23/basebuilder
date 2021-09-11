@@ -8,6 +8,7 @@ import (
 
 	"github.com/MichaelCapo23/jwtserver/cmd/gateway"
 	"github.com/MichaelCapo23/jwtserver/internal/auth"
+	"github.com/MichaelCapo23/jwtserver/pkg/firebase"
 	"github.com/MichaelCapo23/jwtserver/pkg/project/logging"
 	"github.com/MichaelCapo23/jwtserver/pkg/repository/postgres"
 	"github.com/spf13/viper"
@@ -23,21 +24,22 @@ func main() {
 	addr := fs.String("addr", ":3000", "server address")
 	ctx, done := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 
-	logger := logging.NewLogger(viper.GetBool("AIRVET_DEBUG"))
-	defer logger.Sync()
+	fbConfigFile := viper.GetString("FIREBASE_CONFIG_FILE")
+	fb := firebase.NewFirebase(ctx, fbConfigFile)
 
-	logger.Infow("initializing admin-api")
+	internalLogger := logging.NewLogger(false)
+	ctx = logging.WithLogger(ctx, internalLogger)
 
-	ctx = logging.WithLogger(ctx, logger)
+	logger := logging.FromContext(ctx)
+	internalLogger.Logger = logger
 
-	db := postgres.NewDBFromSql(viper.GetString("PG_READER_URI"))
+	db := postgres.NewDBFromSql(viper.GetString("PG_WRITER_URI"))
 
 	var (
 		authService = auth.NewService(ctx, db)
 	)
 
-	server := gateway.New(ctx, db, *addr, authService)
-
+	server := gateway.New(ctx, db, fb, *addr, authService)
 	logger.Infow("starting server")
 
 	server.Serve(ctx)
