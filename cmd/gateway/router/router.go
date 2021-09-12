@@ -4,9 +4,9 @@ import (
 	"context"
 
 	firebase "firebase.google.com/go"
-	"github.com/MichaelCapo23/jwtserver/cmd/gateway/middleware"
-	"github.com/MichaelCapo23/jwtserver/internal/auth"
-	"github.com/MichaelCapo23/jwtserver/internal/user"
+	"github.com/MichaelCapo23/basebuilder/cmd/gateway/middleware"
+	"github.com/MichaelCapo23/basebuilder/internal/auth"
+	"github.com/MichaelCapo23/basebuilder/internal/user"
 	"github.com/gin-gonic/gin"
 )
 

@@ -7,7 +7,7 @@ import (
 
 	firebase "firebase.google.com/go"
 	// _ "firebase.google.com/go/auth"
-	"github.com/MichaelCapo23/jwtserver/pkg/project"
+	"github.com/MichaelCapo23/basebuilder/pkg/project"
 	"github.com/gin-gonic/gin"
 )
 

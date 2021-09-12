@@ -1,4 +1,4 @@
-module github.com/MichaelCapo23/jwtserver
+module github.com/MichaelCapo23/basebuilder
 
 go 1.16
 

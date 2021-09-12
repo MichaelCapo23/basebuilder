@@ -3,8 +3,8 @@ package auth
 import (
 	"context"
 
-	"github.com/MichaelCapo23/jwtserver/pkg/project/logging"
-	"github.com/MichaelCapo23/jwtserver/pkg/repository/postgres"
+	"github.com/MichaelCapo23/basebuilder/pkg/project/logging"
+	"github.com/MichaelCapo23/basebuilder/pkg/repository/postgres"
 )
 
 type AuthService struct {

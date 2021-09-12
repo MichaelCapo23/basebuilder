@@ -5,8 +5,8 @@ import (
 	"flag"
 	"log"
 
-	"github.com/MichaelCapo23/jwtserver/pkg/firebase"
-	"github.com/MichaelCapo23/jwtserver/pkg/project/logging"
+	"github.com/MichaelCapo23/basebuilder/pkg/firebase"
+	"github.com/MichaelCapo23/basebuilder/pkg/project/logging"
 	"github.com/spf13/viper"
 )
 

@@ -7,11 +7,11 @@ import (
 	"net/http"
 
 	firebase "firebase.google.com/go"
-	"github.com/MichaelCapo23/jwtserver/cmd/gateway/router"
-	"github.com/MichaelCapo23/jwtserver/internal/auth"
-	"github.com/MichaelCapo23/jwtserver/internal/user"
-	"github.com/MichaelCapo23/jwtserver/pkg/project/logging"
-	"github.com/MichaelCapo23/jwtserver/pkg/repository/postgres"
+	"github.com/MichaelCapo23/basebuilder/cmd/gateway/router"
+	"github.com/MichaelCapo23/basebuilder/internal/auth"
+	"github.com/MichaelCapo23/basebuilder/internal/user"
+	"github.com/MichaelCapo23/basebuilder/pkg/project/logging"
+	"github.com/MichaelCapo23/basebuilder/pkg/repository/postgres"
 	"github.com/gin-gonic/gin"
 )
 

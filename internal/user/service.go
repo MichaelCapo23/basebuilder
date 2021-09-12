@@ -3,9 +3,9 @@ package user
 import (
 	"context"
 
-	"github.com/MichaelCapo23/jwtserver/internal/auth"
-	"github.com/MichaelCapo23/jwtserver/pkg/project/logging"
-	"github.com/MichaelCapo23/jwtserver/pkg/repository/postgres"
+	"github.com/MichaelCapo23/basebuilder/internal/auth"
+	"github.com/MichaelCapo23/basebuilder/pkg/project/logging"
+	"github.com/MichaelCapo23/basebuilder/pkg/repository/postgres"
 )
 
 type UserService struct {

@@ -6,12 +6,12 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/MichaelCapo23/jwtserver/cmd/gateway"
-	"github.com/MichaelCapo23/jwtserver/internal/auth"
-	"github.com/MichaelCapo23/jwtserver/internal/user"
-	"github.com/MichaelCapo23/jwtserver/pkg/firebase"
-	"github.com/MichaelCapo23/jwtserver/pkg/project/logging"
-	"github.com/MichaelCapo23/jwtserver/pkg/repository/postgres"
+	"github.com/MichaelCapo23/basebuilder/cmd/gateway"
+	"github.com/MichaelCapo23/basebuilder/internal/auth"
+	"github.com/MichaelCapo23/basebuilder/internal/user"
+	"github.com/MichaelCapo23/basebuilder/pkg/firebase"
+	"github.com/MichaelCapo23/basebuilder/pkg/project/logging"
+	"github.com/MichaelCapo23/basebuilder/pkg/repository/postgres"
 	"github.com/spf13/viper"
 )
 
@@ -21,7 +21,7 @@ func init() {
 }
 
 func main() {
-	fs := flag.NewFlagSet("jwtserver", flag.ExitOnError)
+	fs := flag.NewFlagSet("basebuilder", flag.ExitOnError)
 	addr := fs.String("addr", ":3000", "server address")
 	ctx, done := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 

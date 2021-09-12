@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/MichaelCapo23/jwtserver/pkg/models"
+	"github.com/MichaelCapo23/basebuilder/pkg/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )

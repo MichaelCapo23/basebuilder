@@ -1,6 +1,6 @@
 # Base Builder
 FROM golang:1.15.2-alpine3.12 AS base-builder
-WORKDIR /jwtserver
+WORKDIR /basebuilder
 COPY go.mod .
 COPY go.sum .
 RUN go mod download
@@ -34,6 +34,6 @@ RUN mkdir /migration & \
 
 FROM base-server as migration
 COPY --from=migration-builder /migration /migration
-ADD /migration/migrations /jwtserver/migration/migrations
+ADD /migration/migrations /basebuilder/migration/migrations
 WORKDIR /migration
 ENTRYPOINT ["/migration/migration up"]

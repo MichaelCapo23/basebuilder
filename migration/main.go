@@ -8,8 +8,8 @@ import (
 	"github.com/pressly/goose"
 	"github.com/spf13/viper"
 
-	migrationrunner "github.com/MichaelCapo23/jwtserver/migration/migrationrunner"
-	_ "github.com/MichaelCapo23/jwtserver/migration/migrations"
+	migrationrunner "github.com/MichaelCapo23/basebuilder/migration/migrationrunner"
+	_ "github.com/MichaelCapo23/basebuilder/migration/migrations"
 	_ "github.com/lib/pq"
 )
 

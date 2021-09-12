@@ -8,7 +8,7 @@ import (
 
 	"github.com/pressly/goose"
 
-	_ "github.com/MichaelCapo23/jwtserver/migration/migrations"
+	_ "github.com/MichaelCapo23/basebuilder/migration/migrations"
 	_ "github.com/lib/pq"
 )
 

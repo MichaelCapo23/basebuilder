@@ -10,8 +10,8 @@ import (
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
-	"github.com/MichaelCapo23/jwtserver/pkg/project"
-	"github.com/MichaelCapo23/jwtserver/pkg/project/logging"
+	"github.com/MichaelCapo23/basebuilder/pkg/project"
+	"github.com/MichaelCapo23/basebuilder/pkg/project/logging"
 	"google.golang.org/api/option"
 )
 

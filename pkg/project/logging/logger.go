@@ -3,7 +3,7 @@ package logging
 import (
 	"context"
 
-	"github.com/MichaelCapo23/jwtserver/pkg/project"
+	"github.com/MichaelCapo23/basebuilder/pkg/project"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )

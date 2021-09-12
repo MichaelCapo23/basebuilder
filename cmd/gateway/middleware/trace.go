@@ -3,7 +3,7 @@ package middleware
 import (
 	"context"
 
-	"github.com/MichaelCapo23/jwtserver/pkg/project/logging"
+	"github.com/MichaelCapo23/basebuilder/pkg/project/logging"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
