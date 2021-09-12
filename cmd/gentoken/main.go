@@ -27,7 +27,7 @@ func main() {
 	logger := logging.FromContext(ctx)
 	internalLogger.Logger = logger
 
-	fbConfigFile := viper.GetString("FIREBASE_CONFIG_FILE")
+	fbConfigFile := viper.GetString("FIREBASE_CONFIG_FILE_GEN")
 	fbApiKey := viper.GetString("FB_API_KEY")
 	fb := firebase.NewFirebase(ctx, fbConfigFile)
 
