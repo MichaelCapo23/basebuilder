@@ -8,6 +8,7 @@ import (
 
 	"github.com/MichaelCapo23/jwtserver/cmd/gateway"
 	"github.com/MichaelCapo23/jwtserver/internal/auth"
+	"github.com/MichaelCapo23/jwtserver/internal/user"
 	"github.com/MichaelCapo23/jwtserver/pkg/firebase"
 	"github.com/MichaelCapo23/jwtserver/pkg/project/logging"
 	"github.com/MichaelCapo23/jwtserver/pkg/repository/postgres"
@@ -36,10 +37,11 @@ func main() {
 	db := postgres.NewDBFromSql(viper.GetString("PG_WRITER_URI"))
 
 	var (
-		authService = auth.NewService(ctx, db)
+		authService = auth.NewService(ctx, internalLogger, db)
+		userService = user.NewService(ctx, internalLogger, db, authService)
 	)
 
-	server := gateway.New(ctx, db, fb, *addr, authService)
+	server := gateway.New(ctx, internalLogger, db, fb, *addr, authService, userService)
 	logger.Infow("starting server")
 
 	server.Serve(ctx)

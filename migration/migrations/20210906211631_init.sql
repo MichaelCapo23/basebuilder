@@ -2,9 +2,11 @@
 -- +goose StatementBegin
 CREATE TABLE "user" (
     id uuid NOT NULL,
+    external_id VARCHAR(254) NOT NULL,
     email VARCHAR(254),
+    first_name VARCHAR(254),
+    last_name VARCHAR(254),
     email_verified boolean DEFAULT false NOT NULL,
-    admin boolean DEFAULT false NOT NULL,
     banned boolean DEFAULT false NOT NULL,
     deleted boolean DEFAULT false NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,

@@ -9,6 +9,8 @@ import (
 	firebase "firebase.google.com/go"
 	"github.com/MichaelCapo23/jwtserver/cmd/gateway/router"
 	"github.com/MichaelCapo23/jwtserver/internal/auth"
+	"github.com/MichaelCapo23/jwtserver/internal/user"
+	"github.com/MichaelCapo23/jwtserver/pkg/project/logging"
 	"github.com/MichaelCapo23/jwtserver/pkg/repository/postgres"
 	"github.com/gin-gonic/gin"
 )
@@ -18,12 +20,19 @@ type Api struct {
 	router http.Handler
 }
 
-func New(ctx context.Context, db *postgres.PsqlDB, fb *firebase.App, addr string, authService *auth.AuthService) *Api {
+func New(ctx context.Context,
+	logger *logging.InternalLogger,
+	db *postgres.PsqlDB,
+	fb *firebase.App,
+	addr string,
+	authService *auth.AuthService,
+	userService *user.UserService,
+) *Api {
 	gin.SetMode(gin.ReleaseMode)
 	baseRouter := gin.New()
 
 	//add routes to baseRouter
-	router.AddRoutes(ctx, baseRouter, fb, authService)
+	router.AddRoutes(ctx, baseRouter, fb, authService, userService)
 
 	return &Api{
 		addr:   addr,

@@ -8,19 +8,21 @@ import (
 )
 
 type AuthService struct {
-	db *postgres.PsqlDB
+	db     *postgres.PsqlDB
+	logger *logging.InternalLogger
 }
 
 const (
-	loggerName string = "auth"
+	loggerName string = "authServiceCtx"
 )
 
-func NewService(ctx context.Context, db *postgres.PsqlDB) *AuthService {
+func NewService(ctx context.Context, logger *logging.InternalLogger, db *postgres.PsqlDB) *AuthService {
 	l := logging.FromContext(ctx).Named(loggerName)
 
 	l.Infow("initializing auth service")
 
 	return &AuthService{
-		db: db,
+		db:     db,
+		logger: logger,
 	}
 }
