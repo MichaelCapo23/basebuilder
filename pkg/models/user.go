@@ -7,13 +7,13 @@ import (
 )
 
 type UserProfile struct {
-	ID            uuid.UUID
-	Email         string
-	FirstName     string
-	LastName      string
-	EmailVerified bool
-	Banned        bool
-	Deleted       bool
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
+	ID            uuid.UUID `db:"id"`
+	Email         string    `db:"email"`
+	FirstName     string    `db:"first_name"`
+	LastName      string    `db:"last_name"`
+	EmailVerified bool      `db:"email_verified"`
+	Banned        bool      `db:"banned"`
+	Deleted       bool      `db:"deleted"`
+	CreatedAt     time.Time `db:"created_at"`
+	UpdatedAt     time.Time `db:"updated_at"`
 }

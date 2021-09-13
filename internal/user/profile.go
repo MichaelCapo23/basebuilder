@@ -2,32 +2,25 @@ package user
 
 import (
 	"net/http"
-	"time"
 
-	"github.com/MichaelCapo23/basebuilder/pkg/models"
+	"github.com/MichaelCapo23/basebuilder/internal/auth"
+	"github.com/MichaelCapo23/basebuilder/pkg/project/logging"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
-func (p *UserService) HandleGetProfile() gin.HandlerFunc {
+func (s *UserService) HandleGetUserProfile() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		p := models.UserProfile{
-			ID:            uuid.New(),
-			FirstName:     "GET ME",
-			LastName:      "DATA ALREADY",
-			Email:         "michael@airvet.com",
-			EmailVerified: false,
-			Banned:        false,
-			CreatedAt:     time.Now(),
-			UpdatedAt:     time.Now(),
+		ctx := c.Request.Context()
+
+		logger := logging.FromContext(ctx).Named("HandleUpdateProfile")
+
+		claims := auth.FromContext(ctx)
+		if claims == nil {
+			logger.Errorw("missing claims")
+			c.Writer.WriteHeader(http.StatusForbidden)
+			return
 		}
 
-		// get gin context
-		// name the logging from ctx
-		// get claims for authService
-		// get profile
-		// check errors
-
-		c.JSON(http.StatusOK, p)
+		c.JSON(http.StatusOK, claims.User)
 	}
 }

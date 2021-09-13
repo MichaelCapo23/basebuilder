@@ -23,7 +23,7 @@ func AddRoutes(
 	baseRouter.Use(middleware.LoggingMiddleware(ctx))
 	baseRouter.Use(middleware.TraceMiddleware())
 
-	authorizedV1 := baseRouter.Group("/v1", middleware.AuthJWT(fb))
+	authorizedV1 := baseRouter.Group("/v1", middleware.AuthJWT(fb, authService))
+	authorizedV1.GET("/profile", parentService.HandleGetUserProfile())
 
-	authorizedV1.GET("/profile", parentService.HandleGetProfile())
 }

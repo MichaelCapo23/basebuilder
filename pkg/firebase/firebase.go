@@ -58,3 +58,7 @@ func GenerateToken(ctx context.Context, fbApiKey string, fbAuth *auth.Client, ui
 
 	return fmt.Sprintf("%s", jwt), nil
 }
+
+func GetUID(fbt *auth.Token) string {
+	return fbt.UID
+}

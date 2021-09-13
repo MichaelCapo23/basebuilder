@@ -43,9 +43,9 @@ func (e *InternalError) Error() string {
 	return e.Message
 }
 
-func ReturnGinError(c *gin.Context, code int, error *InternalError) {
+func ReturnGinError(c *gin.Context, code int, err error) {
 	c.JSON(http.StatusUnauthorized, gin.H{
-		"code":    http.StatusUnauthorized,
-		"message": UnauthorizedRequest,
+		"code":    code,
+		"message": err.Error(),
 	})
 }

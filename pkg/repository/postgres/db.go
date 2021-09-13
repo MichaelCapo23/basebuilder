@@ -12,10 +12,6 @@ type PsqlDB struct {
 }
 
 func NewDBFromSql(db string) *PsqlDB {
-	// sdb, err := sql.Open("postgres", db) // open sql db
-	// if err != nil {
-	// 	panic(err)
-	// }
 	pdb, err := goose.OpenDBWithDriver("postgres", db)
 	if err != nil {
 		panic(err)

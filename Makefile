@@ -1,5 +1,5 @@
 migration-create:
-	cd migration && go run . create $(name) sql
+	cd migration && go run . create $(name) $(type)
 
 migrate:
 	cd migration && go run . up
