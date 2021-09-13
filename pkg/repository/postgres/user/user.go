@@ -20,7 +20,7 @@ func NewUserStore(db *sqlx.DB) *UserStore {
 	}
 }
 
-func (s *UserStore) GetClaims(ctx context.Context, externalID string) (*models.UserProfile, error) {
+func (s *UserStore) GetUserByID(ctx context.Context, externalID string) (*models.UserProfile, error) {
 	var user models.UserProfile
 
 	q := `

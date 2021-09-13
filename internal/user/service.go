@@ -28,7 +28,7 @@ const (
 func NewService(ctx context.Context, logger *logging.InternalLogger, db *postgres.PsqlDB, authService *auth.AuthService) *UserService {
 	l := logging.FromContext(ctx).Named(loggerName)
 
-	l.Infow("initializing parent service")
+	l.Infow("initializing user service")
 
 	return &UserService{
 		db:          db,

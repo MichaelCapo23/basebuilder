@@ -17,3 +17,11 @@ type UserProfile struct {
 	CreatedAt     time.Time `db:"created_at"`
 	UpdatedAt     time.Time `db:"updated_at"`
 }
+
+type CreateUser struct {
+	Email     string  `form:"email" binding:"required"`
+	Password  string  `form:"password" binding:"required"`
+	FirstName string  `form:"first_name" binding:"required"`
+	LastName  string  `form:"last_name" binding:"required"`
+	Phone     *string `form:"phone" binding:"omitempty,stirng"`
+}

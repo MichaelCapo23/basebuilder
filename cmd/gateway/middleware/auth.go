@@ -18,10 +18,9 @@ const (
 	fbIdToken  = "FIREBASE_ID_TOKEN"
 )
 
-func AuthJWT(fbApp *firebase.App, authService *auth.AuthService) gin.HandlerFunc {
+func AuthJWT(fbApp *firebase.App, internalLogger *logging.InternalLogger, authService *auth.AuthService) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := c.Request.Context()
-		internalLogger := logging.NewLogger(true)
 		logger := logging.FromContext(ctx).Named("authMiddleware")
 
 		authHeader := c.Request.Header.Get(authHeader)

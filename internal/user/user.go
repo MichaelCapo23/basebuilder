@@ -6,4 +6,6 @@ type Service interface {
 
 type UserProfile interface {
 	HandleGetProfile()
+	HandleSignUp()
+	HandleLogin()
 }

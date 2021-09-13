@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"context"
 	"fmt"
 	"time"
 
@@ -10,15 +9,11 @@ import (
 	"go.uber.org/zap"
 )
 
-func LoggingMiddleware(ctx context.Context) gin.HandlerFunc {
-	internalLogger := logging.NewLogger(false)
-	logger := logging.FromContext(ctx)
-	internalLogger.Logger = logger
-
+func LoggingMiddleware(internalLogger *logging.InternalLogger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
 
-		ctx = logging.WithLogger(c.Request.Context(), internalLogger)
+		ctx := logging.WithLogger(c.Request.Context(), internalLogger)
 		c.Request = c.Request.Clone(ctx)
 
 		c.Next()

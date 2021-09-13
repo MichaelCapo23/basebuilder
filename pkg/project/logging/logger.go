@@ -38,7 +38,7 @@ func (l *InternalLogger) ErrorCtx(ctx context.Context, msg string, keysAndValues
 	if traceID == "" {
 		l.Logger.Errorw(msg, keysAndValues...)
 	} else {
-		keysAndValues = append(keysAndValues, "trace_id")
+		keysAndValues = append(keysAndValues, "TRACE_ID")
 		keysAndValues = append(keysAndValues, traceID)
 		l.Logger.Errorw(msg, keysAndValues...)
 	}

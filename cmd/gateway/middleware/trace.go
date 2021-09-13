@@ -8,9 +8,9 @@ import (
 	"github.com/google/uuid"
 )
 
-type traceIDKey string
+// type traceIDKey string
 
-const traceKey traceIDKey = "trace-id"
+const traceKey = "TRACE_ID"
 
 func TraceIDFromContext(ctx context.Context) string {
 	v := ctx.Value(traceKey)
@@ -29,12 +29,11 @@ func withTraceID(ctx context.Context, id string) context.Context {
 	return context.WithValue(ctx, traceKey, id)
 }
 
-func TraceMiddleware() gin.HandlerFunc {
+func TraceMiddleware(internalLogger *logging.InternalLogger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		traceID := uuid.New().String()
 		ctx := withTraceID(c.Request.Context(), traceID)
-		logger := logging.FromContext(ctx).With("trace_id", traceID)
-		internalLogger := logging.NewLogger(false)
+		logger := logging.FromContext(ctx).With(traceKey, traceID)
 		internalLogger.Logger = logger
 		ctx = logging.WithLogger(ctx, internalLogger)
 		c.Request = c.Request.Clone(ctx)

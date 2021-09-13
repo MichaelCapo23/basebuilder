@@ -3,6 +3,7 @@ package auth
 import (
 	"context"
 
+	fb "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 	fbAuth "firebase.google.com/go/auth"
 	"github.com/MichaelCapo23/basebuilder/pkg/firebase"
@@ -23,6 +24,7 @@ var (
 type AuthService struct {
 	db     *postgres.PsqlDB
 	logger *logging.InternalLogger
+	fb     *fb.App
 }
 
 type Claims struct {
@@ -30,7 +32,7 @@ type Claims struct {
 	FirebaseToken *fbAuth.Token       `json:"firebase_token,omitempty"`
 }
 
-func NewService(ctx context.Context, logger *logging.InternalLogger, db *postgres.PsqlDB) *AuthService {
+func NewService(ctx context.Context, logger *logging.InternalLogger, db *postgres.PsqlDB, fb *fb.App) *AuthService {
 	l := logging.FromContext(ctx).Named(loggerName)
 
 	l.Infow("initializing auth service")
@@ -38,6 +40,7 @@ func NewService(ctx context.Context, logger *logging.InternalLogger, db *postgre
 	return &AuthService{
 		db:     db,
 		logger: logger,
+		fb:     fb,
 	}
 }
 
@@ -61,7 +64,7 @@ func (s *AuthService) GetClaims(ctx context.Context, IDToken *auth.Token) (*Clai
 	externalID := firebase.GetUID(IDToken)
 
 	store := user.NewUserStore(s.db.ReaderX)
-	user, err := store.GetClaims(ctx, externalID)
+	user, err := store.GetUserByID(ctx, externalID)
 	if err != nil {
 		return nil, err
 	}
@@ -69,4 +72,11 @@ func (s *AuthService) GetClaims(ctx context.Context, IDToken *auth.Token) (*Clai
 	claims.User = user
 
 	return claims, nil
+}
+
+func (s *AuthService) GetFirebase() *fb.App {
+	if s.fb != nil {
+		return nil
+	}
+	return s.fb
 }

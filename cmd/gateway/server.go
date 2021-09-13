@@ -32,7 +32,7 @@ func New(ctx context.Context,
 	baseRouter := gin.New()
 
 	//add routes to baseRouter
-	router.AddRoutes(ctx, baseRouter, fb, authService, userService)
+	router.AddRoutes(ctx, logger, baseRouter, fb, authService, userService)
 
 	return &Api{
 		addr:   addr,

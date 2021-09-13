@@ -37,7 +37,7 @@ func main() {
 	db := postgres.NewDBFromSql(viper.GetString("PG_WRITER_URI"))
 
 	var (
-		authService = auth.NewService(ctx, internalLogger, db)
+		authService = auth.NewService(ctx, internalLogger, db, fb)
 		userService = user.NewService(ctx, internalLogger, db, authService)
 	)
 
