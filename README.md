@@ -1,6 +1,5 @@
 # basebuilder
-This is a small "dockerized" repo to provide auth via firebase, along with basic postgres migrations using goose. 
-
+This is a golang repo to be used as a "base-builder" for future projects. This repo is fully dockerized and made to provide auth via firebase, along with postgres migrations using goose. 
 
 ## Start Using
 1. spin up postgres container

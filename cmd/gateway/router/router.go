@@ -26,12 +26,10 @@ func AddRoutes(
 	baseRouter.Use(middleware.TraceMiddleware(logger))
 
 	//unauthorized routes
-	unauthorizedV1 := baseRouter.Group("/")
-	unauthorizedV1.POST("v1/signup", userService.HandleSignUp())
-	// unauthorizedV1.POST("v1/login", userService.HandleLogin())
+	// unauthorizedV1 := baseRouter.Group("/")
 
 	//authorized routes
 	authorizedV1 := baseRouter.Group("/v1", middleware.AuthJWT(fb, logger, authService))
 	authorizedV1.GET("/profile", userService.HandleGetUserProfile())
-
+	authorizedV1.POST("/signup", userService.HandleSignUp()) //use after FE creates fb account and passes token/params to create user locally
 }

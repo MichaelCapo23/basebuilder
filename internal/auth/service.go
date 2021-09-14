@@ -64,7 +64,7 @@ func (s *AuthService) GetClaims(ctx context.Context, IDToken *auth.Token) (*Clai
 	externalID := firebase.GetUID(IDToken)
 
 	store := user.NewUserStore(s.db.ReaderX)
-	user, err := store.GetUserByID(ctx, externalID)
+	user, err := store.GetUserByExternalID(ctx, externalID)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (s *AuthService) GetClaims(ctx context.Context, IDToken *auth.Token) (*Clai
 }
 
 func (s *AuthService) GetFirebase() *fb.App {
-	if s.fb != nil {
+	if s.fb == nil {
 		return nil
 	}
 	return s.fb

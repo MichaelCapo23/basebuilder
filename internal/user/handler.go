@@ -33,6 +33,8 @@ func (s *UserService) HandleSignUp() gin.HandlerFunc {
 		var createUserOpts models.CreateUser
 		ctx := c.Request.Context()
 
+		claims := auth.FromContext(ctx)
+
 		// create logger
 		internalLogger := logging.NewLogger(false)
 		logger := logging.FromContext(ctx).Named("HandleSignUp")
@@ -44,31 +46,15 @@ func (s *UserService) HandleSignUp() gin.HandlerFunc {
 			return
 		}
 
-		uid, err := s.SignUpUser(ctx, createUserOpts)
+		id, err := s.SignUpUser(ctx, createUserOpts, claims)
 		if err != nil {
 			s.logger.ErrorCtx(ctx, "error signing up user", "err", err)
 			c.JSON(http.StatusInternalServerError, err)
 		}
 
 		store := user.NewUserStore(s.db.ReaderX)
-		userProfile, err := store.GetUserByID(ctx, *uid)
+		userProfile, err := store.GetUserByID(ctx, id)
 
 		c.JSON(http.StatusOK, userProfile)
 	}
 }
-
-// func (s *UserService) HandleLogin() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		ctx := c.Request.Context()
-
-// 		logger := logging.FromContext(ctx).Named("HandleLogin")
-
-// 		claims := auth.FromContext(ctx)
-// 		if claims == nil {
-// 			logger.Errorw("missing claims")
-// 			c.JSON(http.StatusForbidden, project.NotAllowed)
-// 			return
-// 		}
-
-// 	}
-// }
