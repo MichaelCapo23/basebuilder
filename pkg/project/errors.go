@@ -36,7 +36,6 @@ var (
 type InternalError struct {
 	Code    string
 	Message string
-	TraceID string
 }
 
 func (e *InternalError) Error() string {
