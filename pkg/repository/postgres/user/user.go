@@ -21,8 +21,8 @@ func NewUserStore(db *sqlx.DB) *UserStore {
 	}
 }
 
-func (s *UserStore) GetUserByExternalID(ctx context.Context, externalID string) (*models.UserProfile, error) {
-	var user models.UserProfile
+func (s *UserStore) GetUserByExternalID(ctx context.Context, externalID string) (*models.User, error) {
+	var user models.User
 
 	q := `
 	SELECT
@@ -50,8 +50,8 @@ func (s *UserStore) GetUserByExternalID(ctx context.Context, externalID string) 
 	return &user, nil
 }
 
-func (s *UserStore) GetUserByID(ctx context.Context, id uuid.UUID) (*models.UserProfile, error) {
-	var user models.UserProfile
+func (s *UserStore) GetUserByID(ctx context.Context, id uuid.UUID) (*models.User, error) {
+	var user models.User
 
 	q := `
 	SELECT
@@ -79,19 +79,33 @@ func (s *UserStore) GetUserByID(ctx context.Context, id uuid.UUID) (*models.User
 	return &user, nil
 }
 
-func (s *UserStore) Create(ctx context.Context, opts models.CreateUserRepo) error {
+func (s *UserStore) SetUser(ctx context.Context, user models.User) error {
 	q := `
-	INSERT INTO 
+	INSERT INTO
 		"user"
-	(id, external_id, email, first_name, last_name) 
-		VALUES 
-	(:id, :external_id, :email, :first_name, :last_name)`
+	(id, external_id, email, first_name, last_name)
+		VALUES
+	(:id, :external_id, :email, :first_name, :last_name)
+		ON CONFLICT
+	(external_id)
+		DO UPDATE SET
+	(id, external_id, email, first_name, last_name, email_verified, banned, deleted, updated_at)
+		=
+	(EXCLUDED.id, EXCLUDED.external_id, EXCLUDED.email, EXCLUDED.first_name, EXCLUDED.last_name, EXCLUDED.email_verified, EXCLUDED.banned, EXCLUDED.deleted, EXCLUDED.updated_at)
+	`
 
-	if _, err := s.db.NamedExecContext(ctx, q, opts); err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return project.NotFound
-		}
+	rows, err := s.db.NamedExec(q, user)
+	if err != nil {
+		return project.Conflict
+	}
+
+	rowsAffected, err := rows.RowsAffected()
+	if err != nil {
 		return err
+	}
+
+	if rowsAffected == int64(0) {
+		return project.Conflict
 	}
 
 	return nil

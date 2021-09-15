@@ -30,7 +30,7 @@ func (s *UserService) HandleGetUserProfile() gin.HandlerFunc {
 
 func (s *UserService) HandleSignUp() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var createUserOpts models.CreateUser
+		var userProfile models.User
 		ctx := c.Request.Context()
 
 		claims := auth.FromContext(ctx)
@@ -40,21 +40,27 @@ func (s *UserService) HandleSignUp() gin.HandlerFunc {
 		logger := logging.FromContext(ctx).Named("HandleSignUp")
 		internalLogger.Logger = logger
 
-		if err := c.Bind(&createUserOpts); err != nil {
+		if err := c.Bind(&userProfile); err != nil {
 			s.logger.ErrorCtx(ctx, "parse error", "err", err)
 			c.JSON(http.StatusBadRequest, project.BadInput)
 			return
 		}
 
-		id, err := s.SignUpUser(ctx, createUserOpts, claims)
+		id, err := s.SignUpUser(ctx, userProfile, claims)
 		if err != nil {
 			s.logger.ErrorCtx(ctx, "error signing up user", "err", err)
 			c.JSON(http.StatusInternalServerError, err)
+			return
 		}
 
 		store := user.NewUserStore(s.db.ReaderX)
-		userProfile, err := store.GetUserByID(ctx, id)
+		user, err := store.GetUserByID(ctx, id)
+		if err != nil {
+			s.logger.ErrorCtx(ctx, "error getting new user", "err", err)
+			c.JSON(http.StatusInternalServerError, err)
+			return
+		}
 
-		c.JSON(http.StatusOK, userProfile)
+		c.JSON(http.StatusOK, *user)
 	}
 }

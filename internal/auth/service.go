@@ -2,11 +2,13 @@ package auth
 
 import (
 	"context"
+	"errors"
 
 	fb "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 	fbAuth "firebase.google.com/go/auth"
 	"github.com/MichaelCapo23/basebuilder/pkg/firebase"
+	"github.com/MichaelCapo23/basebuilder/pkg/project"
 
 	"github.com/MichaelCapo23/basebuilder/pkg/models"
 	"github.com/MichaelCapo23/basebuilder/pkg/project/logging"
@@ -28,8 +30,8 @@ type AuthService struct {
 }
 
 type Claims struct {
-	User          *models.UserProfile `json:"user,omitempty"`
-	FirebaseToken *fbAuth.Token       `json:"firebase_token,omitempty"`
+	User          *models.User  `json:"user,omitempty"`
+	FirebaseToken *fbAuth.Token `json:"firebase_token,omitempty"`
 }
 
 func NewService(ctx context.Context, logger *logging.InternalLogger, db *postgres.PsqlDB, fb *fb.App) *AuthService {
@@ -66,7 +68,9 @@ func (s *AuthService) GetClaims(ctx context.Context, IDToken *auth.Token) (*Clai
 	store := user.NewUserStore(s.db.ReaderX)
 	user, err := store.GetUserByExternalID(ctx, externalID)
 	if err != nil {
-		return nil, err
+		if !errors.Is(err, project.NotFound) {
+			return nil, err
+		}
 	}
 
 	claims.User = user
